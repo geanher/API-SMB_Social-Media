@@ -2,8 +2,8 @@
 
 ##Características del Bot:
 
-* Planificación de publicaciones.
-* Edición del perfil.
+* Planificación de publicaciones. **_✓_**
+* Edición del perfil. **_✓_**
 * Reporte del rendimiento de publicaciones (primeras 24H).
 * Respuesta a comentarios automática. (aun no se decide)
 
