@@ -2,10 +2,17 @@ from fastapi import FastAPI
 import time
 import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 
 app = FastAPI()
 
 app.scheduler = BackgroundScheduler()
+jobstores = {
+    'default': SQLAlchemyJobStore(url='mysql+pymysql://root:password@localhost:3310/Prototype')
+    # Sqlalchemyjobstore especifica enlace de almacenamiento
+}
+app.scheduler.configure(jobstores=jobstores)
+
 app.scheduler.start()
 app.home = 'HOME'
 
