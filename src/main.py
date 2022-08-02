@@ -8,7 +8,7 @@ app = FastAPI()
 
 app.scheduler = BackgroundScheduler()
 jobstores = {
-    'default': SQLAlchemyJobStore(url='mysql+pymysql://root:password@localhost:3310/Prototype')
+    'default': SQLAlchemyJobStore(url='mysql+pymysql://root:password@mysql-smb/ScheduledMessage')
     # Sqlalchemyjobstore especifica enlace de almacenamiento
 }
 app.scheduler.configure(jobstores=jobstores)
