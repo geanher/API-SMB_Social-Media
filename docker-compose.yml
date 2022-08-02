@@ -1,0 +1,22 @@
+version: "3.3"
+services:
+  mysql-smb:
+    container_name: mysql-smb
+    image: mysql:8.0.29
+    expose:
+      - 3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASS}
+      MYSQL_DATABASE: ${MYSQL_NAME}
+    volumes: 
+      - "./dumps:/docker-entrypoint-initdb.d"
+    restart: "always"
+
+  smb-api:
+        container_name: smb-api
+        restart: "always"
+        build:
+            context: .
+            dockerfile: Dockerfile
+        expose:
+           - 8080
