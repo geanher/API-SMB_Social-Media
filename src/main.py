@@ -4,22 +4,36 @@ import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 
+import constants
+
 app = FastAPI()
 
 app.scheduler = BackgroundScheduler()
 jobstores = {
-    'default': SQLAlchemyJobStore(url='mysql+pymysql://root:password@mysql-smb/ScheduledMessage')
+    'default': SQLAlchemyJobStore(url=f'mysql+pymysql://{constants.MYSQL_USER}:{constants.MYSQL_PASS}@mysql-smb/{constants.MYSQL_NAME}')
     # Sqlalchemyjobstore especifica enlace de almacenamiento
 }
 app.scheduler.configure(jobstores=jobstores)
 
 app.scheduler.start()
 app.home = 'HOME'
+app.version = '0.0.1'
+app.update_date = 'Ago 01 2022'
 
 
 @app.get("/")
 def home_page():
     return {"page": app.home}
+
+
+@app.get("/status-api")
+def status_api():
+    return {
+        "Status": "Active",
+        "Version": app.version,
+        "update date": app.update_date,
+
+    }
 
 
 @app.get("/post/")
