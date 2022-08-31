@@ -5,18 +5,24 @@ services:
     image: mysql:8.0.29
     expose:
       - 3306
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASS}
-      MYSQL_DATABASE: ${MYSQL_NAME}
+    env_file:
+      - .env 
     volumes: 
       - "./dumps:/docker-entrypoint-initdb.d"
     restart: "always"
 
   smb-api:
-        container_name: smb-api
-        restart: "always"
-        build:
-            context: .
-            dockerfile: Dockerfile
-        expose:
-           - 8080
+    container_name: smb-api
+    restart: "always"
+    env_file:
+      - .env 
+    environment:
+      - TZ=America/Caracas
+    ports:
+      - "8081:8080"
+    build:
+        context: .
+        dockerfile: Dockerfile
+
+    expose:
+        - 8080
