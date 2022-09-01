@@ -5,8 +5,7 @@
 * Planificación de publicaciones. **_✓_**
   * Persistencia? **_✓_**
 * Edición del perfil. **_✓_**
-* Reporte del rendimiento de publicaciones (primeras 24H).
-* Respuesta a comentarios automática. (aun no se decide)
+* Reporte del rendimiento de publicaciones (primeras 24H). ** en Desarrollo**
 
 ***
 ##detalles de las API:

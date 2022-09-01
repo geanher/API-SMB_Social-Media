@@ -51,9 +51,9 @@ def view_status_messages():
     }
 
 @app.get("/post/media/fb")
-def post_media_fb():
-
-    return 'job_id.id'
+def post_media_fb(url_pic: str, day: int, month: int, hour: int , min: int = '0'):
+    job_id = app.scheduler.add_job(services.facebook_media_post, 'date', run_date=datetime.datetime(2022, month, day, hour, min, 0),args=[url_pic, ])
+    return "pass"
 
 @app.get("/post/media/ig")
 def post_media_ig():
@@ -65,28 +65,22 @@ def post_media_all():
 
 @app.get("/post/text/fb")
 def post_text_fb(msj: str, day: int, month: int, hour: int , min: int = '0'):
-    job_id = app.scheduler.add_job(services.facebook_posts, 'date', run_date=datetime.datetime(2022, month, day, hour, min, 0),
-                                args=[msj, ])
-    return 'pass'
+    job_id = app.scheduler.add_job(services.facebook_posts, 'date', run_date=datetime.datetime(2022, month, day, hour, min, 0), args=[msj, ])
+    return "pass"
 
 @app.get("/post/text/all")
-def post_text_all():
-    pass
+def post_text_all(msj :str, day: int, month: int, hour: int , min: int = '0'):
+    post_text_fb(msj, day, month, hour, min)
+    return "pass"
 
 @app.get("/change/profile-picture/fb")
-def change_profile_picture(image_url :str):
-    msg_data = {
-    'picture':image_url,
-    'access_token': constants.FACEBOOK_TOKEN
-    }
-    url_api = f'https://graph.facebook.com/{constants.FACEBOOK_API_VERSION}/me/picture'
-    response = requests.post(url_api, data=msg_data)
-
-    pass
+def change_profile_picture(image_url: str, day: int, month: int, hour: int , min: int = '0'):
+    job_id = app.scheduler.add_job(services.facebook_profile, 'date', run_date=datetime.datetime(2022, month, day, hour, min, 0), args=[msj, ])
+    return "pass"
 
 @app.get("/change/profile-picture/all")
-def change_all_profile_picture(image_url :str):
-    change_profile_picture(image_url)
+def change_all_profile_picture(image_url :str, day: int, month: int, hour: int , min: int = '0'):
+    change_profile_picture(image_url, day, month, hour, min)
     pass
 
 @app.get("/stats/general")
