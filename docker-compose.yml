@@ -5,11 +5,15 @@ services:
     image: mysql:8.0.29
     expose:
       - 3306
+    ports:
+      - "3300:3306"
     env_file:
       - .env 
     volumes: 
       - "./dumps:/docker-entrypoint-initdb.d"
     restart: "always"
+    networks:
+      - smb-net
 
   smb-api:
     container_name: smb-api
@@ -23,6 +27,12 @@ services:
     build:
         context: .
         dockerfile: Dockerfile
-
     expose:
         - 8080
+    depends_on:
+        - mysql-smb
+    networks:
+        - smb-net
+networks:
+  smb-net:
+    driver: bridge
