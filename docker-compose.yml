@@ -1,5 +1,23 @@
 version: "3.3"
 services:
+
+  smb-front:
+    container_name: smb-front
+    build:
+      context: .
+      dockerfile: Dockerfile_two
+      args:
+        NGINX_CONF: ./config/nginx.conf
+    restart: always
+    ports:
+      - "8078:80"
+    expose: 
+      - 80
+    depends_on:
+        - smb-api
+    networks:
+        - smb-net
+
   mysql-smb:
     container_name: mysql-smb
     image: mysql:8.0.29
@@ -23,7 +41,7 @@ services:
     environment:
       - TZ=America/Caracas
     ports:
-      - "8081:8080"
+      - "8079:8080"
     build:
         context: .
         dockerfile: Dockerfile
@@ -33,6 +51,8 @@ services:
         - mysql-smb
     networks:
         - smb-net
+
+
 networks:
   smb-net:
     driver: bridge

@@ -6,3 +6,5 @@ __pycache__
 /venv
 /src/test.py
 test.py
+/smb-app/node_modules
+docker-compose.local.yml
