@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Tabs, Tab, Box, Container, IconButton, Menu, MenuItem 
 import { makeStyles } from '@material-ui/core/styles'
 import { Link, useLocation } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
-import { kukunTab, kukunListTab } from './utils';
+import { elementTab, ListTab } from './utils';
 
 
 const useStyle = makeStyles(theme => ({
@@ -55,7 +55,7 @@ export const NavBar = () => {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {kukunListTab.map((kukuntab: kukunTab) =>
+                            {ListTab.map((kukuntab: elementTab) =>
                                 <MenuItem onClick={handleCloseNavMenu} key={kukuntab.name}>
                                     <Tab label={kukuntab.name} component={Link} to={kukuntab.linkTo} />
                                 </MenuItem>
@@ -66,7 +66,7 @@ export const NavBar = () => {
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         <Tabs value={location.pathname === "/v3/" ? "/v3/dashboard" : location.pathname} aria-label="basic tabs example" centered
                             textColor="inherit" indicatorColor="secondary">
-                            {kukunListTab.map((kukuntab: kukunTab) =>
+                            {ListTab.map((kukuntab: elementTab) =>
                                 < Tab label={kukuntab.name} key={kukuntab.name} component={Link} to={kukuntab.linkTo} value={kukuntab.linkTo} />
                             )}
                         </Tabs>

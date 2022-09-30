@@ -3,23 +3,16 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-
-
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-
-
 import Box from '@mui/material/Box';
 import Input from '@mui/material/Input';
-
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
-
-import { FetchUrl } from "../utils"
+import * as Constants from "../Constants"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -56,7 +49,6 @@ export const Scheduler = () => {
     const handleChangeInstagram = (event: SelectChangeEvent) => {
         setInstagram(!instagram);
     };
-
     const handleChangeDateTime = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         setDateTime(event.target.value);
     };
@@ -68,9 +60,7 @@ export const Scheduler = () => {
     };
 
     const fetchAPIEffect = () => {
-        console.log('tipo: ', type, "facebook: ", facebook, "instagram: ", instagram, "hora: ", dateTime, "text: ", textData, "data: ", urlPic)
-
-        var linkToApi = []
+        var linkToApi:string[] = []
         if (dateTime !== "") {
 
             var dateAndTimeList = dateTime.split("T")
@@ -86,37 +76,32 @@ export const Scheduler = () => {
             var min = time_list[1]
 
             if (type === "1") {
-                let urlToAppend = "/post/text/fb?msj=" + textData + "&day=" + day + "&month=" + month + "&year=" + year + "&hour=" + hour + "&min=" + min
+                let urlToAppend = Constants.URL_TEXT_FB+"?msj=" + textData + "&day=" + day + "&month=" + month + "&year=" + year + "&hour=" + hour + "&minuts=" + min
                 linkToApi.push(urlToAppend)
             }
             else if (type === "2") {
                 if (instagram) {
-                    let urlToAppend = "/post/media/ig?url_pic=" + urlPic + "msj=" + textData + "&day=" + day + "&month=" + month + "&year=" + year + "&hour=" + hour + "&min=" + min
+                    let urlToAppend = Constants.URL_MEDIA_IG+"?url_pic=" + urlPic + "&text_pic=" + textData + "&day=" + day + "&month=" + month + "&year=" + year + "&hour=" + hour + "&minuts=" + min
                     linkToApi.push(urlToAppend)
                 }
                 if (facebook) {
-                    let urlToAppend = "/post/media/fb?url_pic=" + urlPic + "msj=" + textData + "&day=" + day + "&month=" + month + "&year=" + year + "&hour=" + hour + "&min=" + min
+                    let urlToAppend =Constants.URL_MEDIA_FB+"?url_pic=" + urlPic + "&text_pic=" + textData + "&day=" + day + "&month=" + month + "&year=" + year + "&hour=" + hour + "&minuts=" + min
                     linkToApi.push(urlToAppend)
                 }
             }
-            console.log(linkToApi)
+            else if (type === "3") {
+                    let urlToAppend = Constants.URL_PROFILE_FB+"?image_url=" + urlPic + "&msj=" + textData + "&day=" + day + "&month=" + month + "&year=" + year + "&hour=" + hour + "&minuts=" + min
+                    linkToApi.push(urlToAppend)
+            }
         }
 
         async function fetchMyAPI() {
-            const [data, error] = await FetchUrl()
-
-            if (error) {
-                console.error('_______________________')
-                console.error('something went wrong (status)!!!')
-                console.error(error)
-                console.error('_______________________')
-                return
-            }
+            linkToApi.forEach((link)=>{
+                fetch(Constants.URL_BASE+link)
+            })
         }
         fetchMyAPI()
     }
-    React.useEffect(fetchAPIEffect, [])
-
 
     function disabledButtonBoolean() {
         let disabled = true
@@ -124,6 +109,9 @@ export const Scheduler = () => {
             disabled = false
         }
         if ((type === "2") && (facebook || instagram) && (dateTime !== "") && (textData !== "") && (urlPic !== "")) {
+            disabled = false
+        }
+        if ((type === "3") && (facebook) && (dateTime !== "") && (textData !== "") && (urlPic !== "")) {
             disabled = false
         }
 
@@ -142,18 +130,20 @@ export const Scheduler = () => {
                     label="Option"
                     onChange={handleChange}
                 >
-                    <MenuItem value={"1"}>Text</MenuItem>
-                    <MenuItem value={"2"}>Photo</MenuItem>
+                    <MenuItem value={"1"}>Publish a Text</MenuItem>
+                    <MenuItem value={"2"}>Publish a Photo</MenuItem>
+                    <MenuItem value={"3"}>Change Profile Photo</MenuItem>
                 </Select>
 
                 <FormGroup>
-                    <FormControlLabel control={<Checkbox onChange={handleChangeFacebook} />} label="Facebook" />
-                    <FormControlLabel disabled={type === '1' ? true : false} control={<Checkbox onChange={handleChangeInstagram} />} label="Instagram" />
+                    <FormControlLabel disabled={type === '' ? true : false} control={<Checkbox onChange={handleChangeFacebook} />} label="Facebook" />
+                    <FormControlLabel disabled={type === '2' ? false : true} control={<Checkbox onChange={handleChangeInstagram} />} label="Instagram" />
                 </FormGroup>
                 <TextField
                     id="datetime-local"
                     label="Date and Time"
                     type="datetime-local"
+                    disabled={type === '' ? true : false} 
                     // defaultValue="2017-05-24T10:30"
                     value={dateTime}
                     onChange={handleChangeDateTime}
@@ -174,18 +164,15 @@ export const Scheduler = () => {
                 noValidate
                 autoComplete="off"
             >
-                <Input placeholder="Text" inputProps={ariaLabel} multiline rows={4} value={textData} onChange={handleChangeText} />
+                <Input disabled={type === '' ? true : false} placeholder="Text" inputProps={ariaLabel} multiline rows={4} value={textData} onChange={handleChangeText} />
                 <Input disabled={type === '1' ? true : false} multiline rows={4} placeholder="URL PIC" inputProps={ariaLabel} value={urlPic} onChange={handleChangeUrl} />
             </Box>
             <Button variant="contained" endIcon={<SendIcon />}
                 onClick={fetchAPIEffect}
-                // disabled={type!==""?false:true}
                 disabled={disabledButtonBoolean()}
             >
                 Send
             </Button>
-
-
         </>
     )
 }

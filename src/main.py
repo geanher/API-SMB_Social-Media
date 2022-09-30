@@ -1,13 +1,16 @@
 from ast import Constant
+import time
 from fastapi import FastAPI, Depends
 import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
+import requests
 
 import constants
 import services
 import services_db
 import models
+import schemas
 
 import database
 from sqlalchemy.orm import Session
@@ -43,7 +46,7 @@ def home_page():
 @app.get("/status-api")
 def status_api():
     return {
-        "Status": "Active",
+        "Status": "Running",
         "Version": app.version,
         "update date": app.update_date,
         "dev": app.dev,
@@ -156,8 +159,16 @@ def post_text_fb(
 
 
 @app.get("/post/text/all")
-def post_text_all(msj: str, day: int, month: int, hour: int, min: int):
-    post_text_fb(msj, day, month, hour, min)
+def post_text_all(
+    msj: str,
+    day: int,
+    month: int,
+    year: int,
+    hour: int,
+    min: int,
+    db: Session = Depends(get_db),
+):
+    post_text_fb(msj, day, month, year, hour, min, db)
     return "pass"
 
 
@@ -207,7 +218,7 @@ def change_all_profile_picture(
     pass
 
 
-@app.get("/stats/general")
+@app.get("/stats/posts/facebook")
 def general_stats(image_url: str):
     pass
 
@@ -226,3 +237,32 @@ def stop_job(id: str):
     except:
         result = "unsuccesfull"
     return result
+
+
+@app.get("/stats/post/facebook")
+def post_stats_facebook():
+    new_post_list = []
+    url_post_list = f"https://graph.facebook.com/{constants.FACEBOOK_API_VERSION}/me/feed?limit=10&access_token={constants.FACEBOOK_TOKEN}"
+
+    curl = requests.get(url_post_list)
+
+    post_list = curl.json()["data"]
+    for post in post_list:
+        post_id = post["id"]
+        url_feed_reaction = f"https://graph.facebook.com/{constants.FACEBOOK_API_VERSION}/{post_id}/insights?metric=post_reactions_by_type_total&access_token={constants.FACEBOOK_TOKEN}"
+        response_reactions = requests.get(url_feed_reaction)
+        reactions = response_reactions.json()["data"][0]["values"]
+        try:
+            message = post["message"]
+        except:
+            message = "pic"
+
+        new_post = {
+            "Id": post["id"],
+            "Message": message,
+            "Reaction": reactions,
+            "created_time": post["created_time"],
+        }
+        new_post_list.append(new_post)
+    # 111644344858029_139316498839197/insights?metric=post_reactions_by_type_total
+    return new_post_list

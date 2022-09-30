@@ -2,6 +2,7 @@ from pyexpat import model
 from sqlalchemy.orm import Session
 import schemas
 import models
+from sqlalchemy import desc
 
 
 def insert_message(
@@ -33,7 +34,7 @@ def next_message(
     db: Session,
 ):
     next = (
-        db.query(models.Messages, models.apscheduler_jobs)
+        db.query(models.Messages)
         .filter(models.Messages.id_job == models.apscheduler_jobs.id)
         .all()
     )
