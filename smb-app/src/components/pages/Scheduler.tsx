@@ -14,6 +14,12 @@ import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import * as Constants from "../Constants"
 
+import Collapse from '@mui/material/Collapse';
+import Alert from '@mui/material/Alert';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+
+
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {
@@ -38,6 +44,7 @@ export const Scheduler = () => {
     const [dateTime, setDateTime] = React.useState("");
     const [textData, setTextData] = React.useState("")
     const [urlPic, setUrlPic] = React.useState("")
+    const [open, setOpen] = React.useState(false);
 
 
     const handleChange = (event: SelectChangeEvent) => {
@@ -60,7 +67,7 @@ export const Scheduler = () => {
     };
 
     const fetchAPIEffect = () => {
-        var linkToApi:string[] = []
+        var linkToApi: string[] = []
         if (dateTime !== "") {
 
             var dateAndTimeList = dateTime.split("T")
@@ -76,28 +83,28 @@ export const Scheduler = () => {
             var min = time_list[1]
 
             if (type === "1") {
-                let urlToAppend = Constants.URL_TEXT_FB+"?msj=" + textData + "&day=" + day + "&month=" + month + "&year=" + year + "&hour=" + hour + "&minuts=" + min
+                let urlToAppend = Constants.URL_TEXT_FB + "?msj=" + textData + "&day=" + day + "&month=" + month + "&year=" + year + "&hour=" + hour + "&minuts=" + min
                 linkToApi.push(urlToAppend)
             }
             else if (type === "2") {
                 if (instagram) {
-                    let urlToAppend = Constants.URL_MEDIA_IG+"?url_pic=" + urlPic + "&text_pic=" + textData + "&day=" + day + "&month=" + month + "&year=" + year + "&hour=" + hour + "&minuts=" + min
+                    let urlToAppend = Constants.URL_MEDIA_IG + "?url_pic=" + urlPic + "&text_pic=" + textData + "&day=" + day + "&month=" + month + "&year=" + year + "&hour=" + hour + "&minuts=" + min
                     linkToApi.push(urlToAppend)
                 }
                 if (facebook) {
-                    let urlToAppend =Constants.URL_MEDIA_FB+"?url_pic=" + urlPic + "&text_pic=" + textData + "&day=" + day + "&month=" + month + "&year=" + year + "&hour=" + hour + "&minuts=" + min
+                    let urlToAppend = Constants.URL_MEDIA_FB + "?url_pic=" + urlPic + "&text_pic=" + textData + "&day=" + day + "&month=" + month + "&year=" + year + "&hour=" + hour + "&minuts=" + min
                     linkToApi.push(urlToAppend)
                 }
             }
             else if (type === "3") {
-                    let urlToAppend = Constants.URL_PROFILE_FB+"?image_url=" + urlPic + "&msj=" + textData + "&day=" + day + "&month=" + month + "&year=" + year + "&hour=" + hour + "&minuts=" + min
-                    linkToApi.push(urlToAppend)
+                let urlToAppend = Constants.URL_PROFILE_FB + "?image_url=" + urlPic + "&msj=" + textData + "&day=" + day + "&month=" + month + "&year=" + year + "&hour=" + hour + "&minuts=" + min
+                linkToApi.push(urlToAppend)
             }
         }
 
         async function fetchMyAPI() {
-            linkToApi.forEach((link)=>{
-                fetch(Constants.URL_BASE+link)
+            linkToApi.forEach((link) => {
+                fetch(Constants.URL_BASE + link)
             })
         }
         fetchMyAPI()
@@ -143,7 +150,7 @@ export const Scheduler = () => {
                     id="datetime-local"
                     label="Date and Time"
                     type="datetime-local"
-                    disabled={type === '' ? true : false} 
+                    disabled={type === '' ? true : false}
                     // defaultValue="2017-05-24T10:30"
                     value={dateTime}
                     onChange={handleChangeDateTime}
@@ -165,14 +172,41 @@ export const Scheduler = () => {
                 autoComplete="off"
             >
                 <Input disabled={type === '' ? true : false} placeholder="Text" inputProps={ariaLabel} multiline rows={4} value={textData} onChange={handleChangeText} />
-                <Input disabled={type === '1' ? true : false} multiline rows={4} placeholder="URL PIC" inputProps={ariaLabel} value={urlPic} onChange={handleChangeUrl} />
+                <Input disabled={type === '2' || type === '3' ? false : true} multiline rows={4} placeholder="URL PIC" inputProps={ariaLabel} value={urlPic} onChange={handleChangeUrl} />
             </Box>
             <Button variant="contained" endIcon={<SendIcon />}
-                onClick={fetchAPIEffect}
+                onClick={() => {
+                    fetchAPIEffect()
+                    setOpen(true)
+                    setTimeout(function(){
+                        window.location.replace('');
+                    },600);
+                    //setFlagUpdate(!flagUpdate)
+                }}
                 disabled={disabledButtonBoolean()}
             >
                 Send
             </Button>
+
+            <Collapse in={open}>
+                <Alert
+                    action={
+                        <IconButton
+                            aria-label="close"
+                            color="inherit"
+                            size="small"
+                            onClick={() => {
+                                setOpen(false);
+                            }}
+                        >
+                            <CloseIcon fontSize="inherit" />
+                        </IconButton>
+                    }
+                    sx={{ mb: 2 }}
+                >
+                    Send Request
+                </Alert>
+            </Collapse>
         </>
     )
 }

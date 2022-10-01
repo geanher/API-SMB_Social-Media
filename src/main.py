@@ -242,7 +242,7 @@ def stop_job(id: str):
 @app.get("/stats/post/facebook")
 def post_stats_facebook():
     new_post_list = []
-    url_post_list = f"https://graph.facebook.com/{constants.FACEBOOK_API_VERSION}/me/feed?limit=10&access_token={constants.FACEBOOK_TOKEN}"
+    url_post_list = f"https://graph.facebook.com/{constants.FACEBOOK_API_VERSION}/me/feed?limit=5&access_token={constants.FACEBOOK_TOKEN}"
 
     curl = requests.get(url_post_list)
 

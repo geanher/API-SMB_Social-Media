@@ -1,6 +1,6 @@
 import MaterialTable from "material-table";
 import * as React from 'react';
-import { IDataReaction, FetchNextMessage, remove_job } from "../utils"
+import { IDataHistory, FetchNextMessage, remove_job } from "../utils"
 
 import { Delete } from "@material-ui/icons";
 
@@ -11,7 +11,7 @@ export const tableOptions = {
 
 export const NextMessages = () => {
     const [flagUpdate, setFlagUpdate] = React.useState(true)
-    const [reactionData, setReactionData] = React.useState<IDataReaction[]>([])
+    const [historyData, setHistoryData] = React.useState<IDataHistory[]>([])
 
     const fetchAPIEffect = () => {
         async function fetchMyAPI() {
@@ -25,11 +25,23 @@ export const NextMessages = () => {
                 return
             }
 
-            setReactionData(data)
+            setHistoryData(data)
         }
         fetchMyAPI()
     }
     React.useEffect(fetchAPIEffect, [flagUpdate])
+    //ejemplo de data que espera
+    data =[
+        {
+          "date": "2022-10-7T11:31",
+          "id_message": 36,
+          "id_job": "c91380dfa4834255a060f8bf85a30b46",
+          "id_RRSS": 1,
+          "message": "prueba para el 7 de octubre",
+          "url": "DOES NOT APPLY",
+          "created_at": null
+        }
+      ]
     return (
         <>
             <MaterialTable
@@ -43,9 +55,9 @@ export const NextMessages = () => {
                     { title: 'Url', field: 'url' },
                     { title: 'created_at', field: 'created_at' }
                 ]}
-                data={reactionData}
+                data={historyData}
                 actions={[
-                    (rowData: IDataReaction) => ({
+                    (rowData: IDataHistory) => ({
                         tooltip: 'Remove Job',
                         icon: () => <Delete />,
                         onClick: () => {

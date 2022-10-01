@@ -11,6 +11,10 @@ def facebook_posts(msg: str = None):
         f"https://graph.facebook.com/{constants.FACEBOOK_API_VERSION}/me/feed"
     )
     response = requests.post(url_post, data=msg_data)
+    print(
+        f"response request code: {response.status_code}, data {response.text}"
+    )
+
     return response.json
 
 
@@ -25,6 +29,9 @@ def facebook_media_post(url: str, text: str):
         f"https://graph.facebook.com/{constants.FACEBOOK_API_VERSION}/me/photos"
     )
     response = requests.post(url_post, data=msg_data)
+    print(
+        f"response request code: {response.status_code}, data {response.text}"
+    )
     return response.json
 
 
@@ -32,6 +39,9 @@ def facebook_profile(image_url: str):
     msg_data = {"picture": image_url, "access_token": constants.FACEBOOK_TOKEN}
     url_api = f"https://graph.facebook.com/{constants.FACEBOOK_API_VERSION}/me/picture"
     response = requests.post(url_api, data=msg_data)
+    print(
+        f"response request code: {response.status_code}, data {response.text}"
+    )
     return response.json
 
 

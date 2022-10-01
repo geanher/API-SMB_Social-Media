@@ -55,19 +55,19 @@ export const NavBar = () => {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {ListTab.map((kukuntab: elementTab) =>
-                                <MenuItem onClick={handleCloseNavMenu} key={kukuntab.name}>
-                                    <Tab label={kukuntab.name} component={Link} to={kukuntab.linkTo} />
+                            {ListTab.map((tab: elementTab) =>
+                                <MenuItem onClick={handleCloseNavMenu} key={tab.name}>
+                                    <Tab label={tab.name} component={Link} to={tab.linkTo} />
                                 </MenuItem>
                             )}
                         </Menu>
                     </Box>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        <Tabs value={location.pathname === "/v3/" ? "/v3/dashboard" : location.pathname} aria-label="basic tabs example" centered
+                        <Tabs value={location.pathname} aria-label="basic tabs example" centered
                             textColor="inherit" indicatorColor="secondary">
-                            {ListTab.map((kukuntab: elementTab) =>
-                                < Tab label={kukuntab.name} key={kukuntab.name} component={Link} to={kukuntab.linkTo} value={kukuntab.linkTo} />
+                            {ListTab.map((tab: elementTab) =>
+                                < Tab label={tab.name} key={tab.name} component={Link} to={tab.linkTo} value={tab.linkTo} />
                             )}
                         </Tabs>
                     </Box>

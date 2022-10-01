@@ -11,6 +11,7 @@ export interface elementTab {
     content: string
 }
 
+
 export const ListTab: elementTab[] = [
     { name: "Scheduler", linkTo: "/scheduler", content:"scheduler" },
     { name: "Reports", linkTo: "/reports", content:"reports details" },
@@ -18,19 +19,19 @@ export const ListTab: elementTab[] = [
 
 ]
 
-// export const FetchUrl = async (): Promise<[any, any]> => {
-//     try {
+export const FetchUrl = async (url:string): Promise<[any, any]> => {
+    try {
         
-//         // let response = await fetch();
-//         // response = await response.json()
+        let response = await fetch(url);
+        response = await response.json()
 
-//         return ["response", null]
-//     } catch (error) {
-//         return [null, error]
-//     }
-// }
+        return [response, null]
+    } catch (error) {
+        return [null, error]
+    }
+}
 
-export interface IDataReaction {
+export interface IDataHistory {
     "date": string,
     "id_message": number,
     "id_job": string,
@@ -39,7 +40,20 @@ export interface IDataReaction {
     "url": string,
     "created_at": null
 }
+export interface IDataReactions {
+    "Id": string,
+    "Message": string,
+    "Reaction": IValue[],
+    "created_time": string,
+}
+export interface IValue {
+    "value": IReaction;
+    
+}
 
+export interface IReaction {
+    [key: string]: number ;
+}
 export const FetchNextMessage = async (): Promise<[any, any]> => {
     try {
         
