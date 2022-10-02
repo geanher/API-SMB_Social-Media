@@ -108,11 +108,12 @@ def post_media_ig(
     minuts: int,
     db: Session = Depends(get_db),
 ):
+    date_id = f"{year}{month}{day}T{hour}:{minuts}"
     job_id = app.scheduler.add_job(
         services.instagram_media_post,
         "date",
         run_date=datetime.datetime(year, month, day, hour, minuts, 0),
-        args=[url_pic, text_pic],
+        args=[url_pic, text_pic, date_id],
     )
     services_db.insert_message(
         db, text_pic, url_pic, year, month, day, hour, minuts, "2", job_id.id
@@ -138,9 +139,7 @@ def post_text_fb(
         services.facebook_posts,
         "date",
         run_date=datetime.datetime(year, month, day, hour, minuts, 0),
-        args=[
-            msj,
-        ],
+        args=[msj],
     )
 
     services_db.insert_message(
@@ -240,30 +239,37 @@ def stop_job(id: str):
 
 
 @app.get("/stats/post/facebook")
-def post_stats_facebook():
+def post_stats_facebook(db: Session = Depends(get_db)):
     new_post_list = []
     url_post_list = f"https://graph.facebook.com/{constants.FACEBOOK_API_VERSION}/me/feed?limit=5&access_token={constants.FACEBOOK_TOKEN}"
 
     curl = requests.get(url_post_list)
-    print(url_post_list)
 
     post_list = curl.json()["data"]
     for post in post_list:
         post_id = post["id"]
+        created_time = post["created_time"]
+        created_time = services.utc_to_local(created_time)
         url_feed_reaction = f"https://graph.facebook.com/{constants.FACEBOOK_API_VERSION}/{post_id}/insights?metric=post_reactions_by_type_total&access_token={constants.FACEBOOK_TOKEN}"
         response_reactions = requests.get(url_feed_reaction)
         reactions = response_reactions.json()["data"][0]["values"]
         try:
+            url = ""
             message = post["message"]
         except:
-            message = "pic"
+            message: models.Messages = services_db.get_message_by_date(
+                created_time, db
+            )
+            if message:
+                url = message.url
+                message = message.message
 
         new_post = {
             "Id": post["id"],
             "Message": message,
+            "url": url,
             "Reaction": reactions,
             "created_time": post["created_time"],
         }
         new_post_list.append(new_post)
-    # 111644344858029_139316498839197/insights?metric=post_reactions_by_type_total
     return new_post_list

@@ -43,7 +43,7 @@ export const NextMessages = () => {
                     { title: 'RRSS', field: 'id_RRSS' },
                     { title: 'Message', field: 'message' },
                     { title: 'Url', field: 'url' },
-                    { title: 'created_at', field: 'created_at' }
+                    { title: 'created_at', field: 'updated_at' }
                 ]}
                 data={historyData}
                 actions={[

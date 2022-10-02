@@ -38,11 +38,13 @@ export interface IDataHistory {
     "id_RRSS": number,
     "message": string,
     "url": string,
-    "created_at": null
+    "created_at": null,
+    "updated_at": string
 }
 export interface IDataReactions {
     "Id": string,
     "Message": string,
+    "url": string,
     "Reaction": IValue[],
     "created_time": string,
 }

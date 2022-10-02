@@ -22,8 +22,8 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Facebook from '../icons/Facebook.svg'
-import {InstagramCard} from "../InstagramCard"
-import {FacebookCard} from "../FacebookCard"
+import { InstagramCard } from "../InstagramCard"
+import { FacebookCard } from "../FacebookCard"
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -142,7 +142,12 @@ export const Scheduler = () => {
 
     return (
         <div>
-            <Stack direction="row" spacing={2}>
+            <Stack
+            // direction="row" spacing={2}
+            direction={{ xs: 'column', sm: 'row' }}
+            spacing={{ xs: 1, sm: 2, md: 4 }}
+            justifyContent="center"
+            >
                 <Item>
                     <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
                         <InputLabel id="select-small">Option</InputLabel>
@@ -226,15 +231,15 @@ export const Scheduler = () => {
                         </Alert>
                     </Collapse>
                 </Item>
-                {facebook || instagram?<Item>
+                {facebook || instagram ? <Item>
                     {/* <FacebookCard text={textData} link={urlPic}/> */}
-                    {facebook?<FacebookCard text={textData} link={urlPic}/>:null}
-                    <br/>
-                    <br/>
+                    {facebook ? <FacebookCard text={textData} link={urlPic} /> : null}
+                    <br />
+                    <br />
 
-                    {instagram?<InstagramCard text={textData} link={urlPic}/>:null}
+                    {instagram ? <InstagramCard text={textData} link={urlPic} /> : null}
 
-                </Item>:null}
+                </Item> : null}
             </Stack>
         </div>
     )

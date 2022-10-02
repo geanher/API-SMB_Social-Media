@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `ScheduledMessage`.`Messages` (
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id_message`),
+    INDEX (`date`),
     FOREIGN KEY (`id_RRSS`)
     REFERENCES `ScheduledMessage`.`RRSS` (`id_RRSS`)
     ON DELETE CASCADE ON UPDATE CASCADE);

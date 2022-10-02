@@ -22,6 +22,7 @@ function App() {
       <CssBaseline />
       <BrowserRouter>
         <NavBar />
+        <br/>
         <Routes>
           <Route path="/scheduler" element={<Scheduler />} />
           <Route path="/reports" element={<Reports />} />

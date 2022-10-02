@@ -15,11 +15,12 @@ class Messages(database.Base):
     __tablename__ = "Messages"
     id_message = Column(Integer(), primary_key=True, index=True)
     message = Column(String)
-    url = Column(String)
+    url = Column(String, index=True)
     date = Column(String)
     id_RRSS = Column(String)
     id_job = Column(String)
     created_at = Column(String)
+    updated_at = Column(String)
 
 
 class apscheduler_jobs(database.Base):

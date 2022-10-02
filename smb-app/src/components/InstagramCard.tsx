@@ -13,18 +13,17 @@ export const InstagramCard: React.FC<Props> = (Props) => {
 
             <div className="instagram-card">
                 <div className="instagram-card-header">
-                    <img src={Constants.URL_PROFILE_CARD_IGNIS} className="instagram-card-user-image" />
-                    <a className="instagram-card-user-name">Ignis Gravitas</a>
+                    <img src={Constants.URL_PROFILE_CARD_IGNIS} className="instagram-card-user-image" alt= "profile pic Ignis Gravitas"/>
+                    <a href="/#" className="instagram-card-user-name">Ignis Gravitas</a>
                     <div className="instagram-card-time">10 min</div>
                 </div>
                 <br/>
                 <div >
-                    <img className="intagram-card-image" src={Props.link} height="270px" />
+                    <img className="instagram-pic" src={Props.link} height="270px" alt= "pic Ignis Gravitas"/>
                 </div>
-
                 <div className="instagram-card-content">
                     <p className="likes">1.992 Me gusta</p>
-                    <p><a className="instagram-card-content-user">Ignis Gravitas</a> {Props.text}</p>
+                    <p><a href="/#" className="instagram-card-content-user">Ignis Gravitas</a> {Props.text}</p>
                     <p className="comments">ver los 19 comentarios</p>
 
                     <hr/>

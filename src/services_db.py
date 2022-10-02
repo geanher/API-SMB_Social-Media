@@ -52,3 +52,13 @@ def last_messages(
         .all()
     )
     return last
+
+
+def get_message_by_date(
+    date: str,
+    db: Session,
+):
+    message = (
+        db.query(models.Messages).filter(models.Messages.date == date).first()
+    )
+    return message

@@ -1,10 +1,10 @@
 import requests
 import time
 import constants
+from datetime import datetime, timezone
 
 
-def facebook_posts(msg: str = None):
-    hora = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+def facebook_posts(msg: str):
     msg_data = {"message": msg, "access_token": constants.FACEBOOK_TOKEN}
 
     url_post = (
@@ -68,3 +68,11 @@ def instagram_media_post(url: str, text: str):
     )
 
     return response.json
+
+
+def utc_to_local(utc_dt):
+    utc_dt = datetime.fromisoformat(utc_dt[:-5])
+    utc_dt = utc_dt.replace(tzinfo=timezone.utc).astimezone(tz=None)
+    utc_dt = str(utc_dt).replace(" ", "T").replace(":00-04:00", "")
+    utc_dt = utc_dt.replace("-0", "-").replace("T0", "T").replace(":0", ":")
+    return utc_dt

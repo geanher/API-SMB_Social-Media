@@ -5,93 +5,100 @@
 
 } */
 
-a{
-  text-decoration: none;
+a {
+	text-decoration: none;
 }
 
-.instagram-card{
+.instagram-card {
 	background: #ffffff;
-	border: 1px solid #f2f2f2;
+	border: 2px solid #f2f2f2;
 	border-radius: 3px;
-	width: 100%;
+	/* width: 100%; */
+	width: 500px;
+
 	max-width: 600px;
 	margin: auto;
 }
 
-.instagram-card-header{
+.instagram-card-header {
 	padding: 20px;
 	height: 40px;
 }
 
-.instagram-card-user-image{
+.instagram-card-user-image {
 	border-radius: 50%;
 	width: 40px;
 	height: 40px;
 	vertical-align: middle;
 }
 
-.instagram-card-time{
+.instagram-card-time {
 	float: right;
 	width: 80px;
-	padding-top:10px;
+	padding-top: 10px;
 	text-align: right;
 	color: #999;
 }
 
-.instagram-card-user-name{
-	margin-left:20px;
-	font-weight:bold;
-  color: #262626;
+.instagram-card-user-name {
+	margin-left: 20px;
+	font-weight: bold;
+	color: #262626;
 }
 
-.instagram-card-content{
-  padding: 20px;
+.instagram-pic {
+	width: 500px;
+    margin-bottom: 11px;
+    /* border: 1px solid rgba(0, 0, 0, .1); */
 }
 
-.likes{
-  font-weight: bold;
+.instagram-card-content {
+	padding: 20px;
 }
 
-.instagram-card-content-user{
-  font-weight: bold;
-  color: #262626;
+.likes {
+	font-weight: bold;
 }
 
-.hashtag{
-  color: #003569;
+.instagram-card-content-user {
+	font-weight: bold;
+	color: #262626;
 }
 
-.comments{
-  color:#999;
+.hashtag {
+	color: #003569;
 }
 
-.user-comment{
-  color: #003569;
+.comments {
+	color: #999;
 }
 
-.instagram-card-footer{
-  padding: 20px;
-  display: flex;
-  align-items: center;
+.user-comment {
+	color: #003569;
 }
 
-hr{
-  border: none;
-  border-bottom: 1px solid #ccc;
-  margin-top: 30px;
-  margin-bottom: 0px;
- 
+.instagram-card-footer {
+	padding: 20px;
+	display: flex;
+	align-items: center;
+}
+
+hr {
+	border: none;
+	border-bottom: 1px solid #ccc;
+	margin-top: 30px;
+	margin-bottom: 0px;
+
 }
 
 
-.footer-action-icons{
-  font-size: 16px;
-  color: #ccc;
+.footer-action-icons {
+	font-size: 16px;
+	color: #ccc;
 }
 
-.comments-input{
-  border: none;
-  margin-left: 10px;
-  width: 100%;
+.comments-input {
+	border: none;
+	margin-left: 10px;
+	width: 100%;
 }
-

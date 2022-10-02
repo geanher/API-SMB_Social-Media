@@ -57,7 +57,7 @@ export const NavBar = () => {
                         </Menu>
                     </Box>
 
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                    <Box justifyContent="center" sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         <Tabs value={location.pathname} aria-label="basic tabs example" centered
                             textColor="inherit" indicatorColor="secondary">
                             {ListTab.map((tab: elementTab) =>

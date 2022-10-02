@@ -5,7 +5,6 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import { Grid } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import { FetchUrl, IDataReactions } from "../utils"
 import * as Constants from "../Constants"
 import anger from '../icons/anger.svg'
@@ -14,19 +13,41 @@ import like from '../icons/like.svg'
 import love from '../icons/love.svg'
 import sorry from '../icons/sorry.svg'
 import wow from '../icons/wow.svg'
+import Stack from '@mui/material/Stack';
+import Paper from '@mui/material/Paper';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 
-const useStyles = makeStyles({
-    logo: {
-        width: "8%",
-    },
-    gridContainer: {
-        paddingLeft: "40px",
-        paddingRight: "40px",
-        marginTop: "100px"
-    }
-});
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        logo: {
+            width: "8%",
+        },
+        gridContainer: {
+            paddingLeft: "40px",
+            paddingRight: "40px",
+            marginTop: "100px"
+        },
+        imagecontainer: {
+            width: "350px",
+        },
+        status: {
+            margin: "11px 0"
+        }
 
-export const FacebookStats= () => {
+
+    }),
+);
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(6),
+    // textAlign: 'center',
+    color: theme.palette.text.secondary,
+}));
+
+export const FacebookStats = () => {
 
     const classes = useStyles();
     const [flagUpdate, setFlagUpdate] = React.useState(true)
@@ -40,6 +61,7 @@ export const FacebookStats= () => {
                 console.error('something went wrong (status)!!!')
                 console.error(error)
                 console.error('_______________________')
+                alert("Problem with Facebook Token");
                 return
             }
 
@@ -52,64 +74,6 @@ export const FacebookStats= () => {
     const funcionn = () => {
         setFlagUpdate(!flagUpdate);
     };
-    // ejemplo de data que espera 
-    var data = [
-        {
-          "Id": "111644344858029_139836395453874",
-          "Message": "muestra",
-          "Reaction": [
-            {
-              "value": {
-                "like": 1
-              }
-            }
-          ],
-          "created_time": "2022-10-01T15:57:00+0000"
-        },
-        {
-          "Id": "111644344858029_139728378798009",
-          "Message": "cuarenta",
-          "Reaction": [
-            {
-              "value": {}
-            }
-          ],
-          "created_time": "2022-10-01T08:40:00+0000"
-        },
-        {
-          "Id": "111644344858029_139728285464685",
-          "Message": "half time",
-          "Reaction": [
-            {
-              "value": {
-                "like": 1
-              }
-            }
-          ],
-          "created_time": "2022-10-01T08:39:00+0000"
-        },
-        {
-          "Id": "111644344858029_139728165464697",
-          "Message": "five seconds",
-          "Reaction": [
-            {
-              "value": {}
-            }
-          ],
-          "created_time": "2022-10-01T08:38:00+0000"
-        },
-        {
-          "Id": "111644344858029_139728168798030",
-          "Message": "prueba dos",
-          "Reaction": [
-            {
-              "value": {}
-            }
-          ],
-          "created_time": "2022-10-01T08:38:00+0000"
-        }
-      ]
-
     return (
         <>
             <Grid
@@ -119,28 +83,32 @@ export const FacebookStats= () => {
                 justifyContent="center"
             >
                 {
-                    fbReaction.map((item: IDataReactions) =>
+                    fbReaction.map((itemValue: IDataReactions) =>
                         // item.name === 'Dashboard' ? null : <Grid item key={item.name} xs={12} sm={6} md={4}>
-                        <Grid item key={item.Id} xs={12} sm={6} md={4}>
-                            <Card>
+                        <Grid item key={itemValue.Id} xs={12} sm={6} md={4}>
+                            {/* <Card>
                                 <CardContent>
                                     <Typography variant="h5">
-                                        {item.Message}
+                                        {item.url ? <img src={item.url} alt="image" className={classes.imagecontainer} /> : null}
+                                        <Typography component="div"  variant="h5" gutterBottom className="status">
+
+                                            POST: {item.Message}
+                                        </Typography>
                                         <br />
                                         <br />
                                     </Typography>
                                     <Typography component="div" gutterBottom>
-                                    <img src={like} alt= "reaction like"className={classes.logo}/>{item.Reaction[0].value.like ? item.Reaction[0].value.like : 0}
+                                        <img src={like} alt="reaction like" className={classes.logo} /> {item.Reaction[0].value.like ? item.Reaction[0].value.like : 0}
 
-                                    <img src={love} alt= "reaction love"className={classes.logo}/>{item.Reaction[0].value.love ? item.Reaction[0].value.love : 0}
+                                        <img src={love} alt="reaction love" className={classes.logo} /> {item.Reaction[0].value.love ? item.Reaction[0].value.love : 0}
 
-                                    <img src={anger} alt= "reaction .anger"className={classes.logo}/> {item.Reaction[0].value.anger ? item.Reaction[0].value.anger : 0}
+                                        <img src={anger} alt="reaction .anger" className={classes.logo} /> {item.Reaction[0].value.anger ? item.Reaction[0].value.anger : 0}
 
-                                    <img src={sorry} alt= "reaction sorry"className={classes.logo}/>{item.Reaction[0].value.sorry ? item.Reaction[0].value.sorry : 0}
+                                        <img src={sorry} alt="reaction sorry" className={classes.logo} /> {item.Reaction[0].value.sorry ? item.Reaction[0].value.sorry : 0}
 
-                                    <img src={wow} alt= "reaction wow"className={classes.logo}/>{item.Reaction[0].value.wow ? item.Reaction[0].value.wow : 0}
+                                        <img src={wow} alt="reaction wow" className={classes.logo} /> {item.Reaction[0].value.wow ? item.Reaction[0].value.wow : 0}
 
-                                    <img src={haha} alt= "reaction haha"className={classes.logo}/>{item.Reaction[0].value.haha ? item.Reaction[0].value.haha : 0}
+                                        <img src={haha} alt="reaction haha" className={classes.logo} /> {item.Reaction[0].value.haha ? item.Reaction[0].value.haha : 0}
                                     </Typography>
 
                                 </CardContent>
@@ -149,7 +117,44 @@ export const FacebookStats= () => {
                                         onClick={funcionn}
                                         target="_blank" size="small" >Open Post</Button>
                                 </CardActions>
-                            </Card>
+                            </Card> */}
+                            <div id="wrapper">
+
+                                <header className='cf'>
+                                    <img src="http://2016.igem.org/wiki/images/e/e0/Uclascrolldown.png" className="arrow" alt="" />
+                                    <img className='profile-pic' src={Constants.URL_PROFILE_CARD_IGNIS} alt="" />
+                                    <h1 className="name">
+                                        <a href="/#">Ignis Gravitas</a>
+                                    </h1>
+                                    {/* <p className="date">2 hr ago</p> */}
+                                </header>
+
+                                <p className="status">{itemValue.Message}</p>
+                                <img className="img-content" src={itemValue.url} alt="" />
+                                <Typography component="div" gutterBottom>
+                                    <img src={like} alt="reaction like" className={classes.logo} /> {itemValue.Reaction[0].value.like ? itemValue.Reaction[0].value.like : 0}
+
+                                    <img src={love} alt="reaction love" className={classes.logo} /> {itemValue.Reaction[0].value.love ? itemValue.Reaction[0].value.love : 0}
+
+                                    <img src={anger} alt="reaction .anger" className={classes.logo} /> {itemValue.Reaction[0].value.anger ? itemValue.Reaction[0].value.anger : 0}
+
+                                    <img src={sorry} alt="reaction sorry" className={classes.logo} /> {itemValue.Reaction[0].value.sorry ? itemValue.Reaction[0].value.sorry : 0}
+
+                                    <img src={wow} alt="reaction wow" className={classes.logo} /> {itemValue.Reaction[0].value.wow ? itemValue.Reaction[0].value.wow : 0}
+
+                                    <img src={haha} alt="reaction haha" className={classes.logo} /> {itemValue.Reaction[0].value.haha ? itemValue.Reaction[0].value.haha : 0}
+
+                                    {/* {itemValue.Reaction[0].value.like ? <><img src={like} alt="reaction like" className={classes.logo} />{itemValue.Reaction[0].value.like}</>: null}
+                                        {itemValue.Reaction[0].value.love ? <><img src={love} alt="reaction love" className={classes.logo} /> {itemValue.Reaction[0].value.love}</> : null}
+                                        {itemValue.Reaction[0].value.anger ? <><img src={anger} alt="reaction .anger" className={classes.logo} /> {itemValue.Reaction[0].value.anger}</> : null}
+                                        {itemValue.Reaction[0].value.sorry ? <><img src={sorry} alt="reaction sorry" className={classes.logo} /> {itemValue.Reaction[0].value.sorry}</> : null}
+                                        {itemValue.Reaction[0].value.wow ? <><img src={wow} alt="reaction wow" className={classes.logo} /> {itemValue.Reaction[0].value.wow}</> : null}
+                                        {itemValue.Reaction[0].value.haha ? <><img src={haha} alt="reaction haha" className={classes.logo} /> {itemValue.Reaction[0].value.haha}</> : null} */}
+
+                                </Typography>
+
+                            </div>
+
                         </Grid>
                     )
                 }
