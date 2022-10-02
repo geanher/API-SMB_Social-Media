@@ -53,7 +53,7 @@ export const FacebookStats= () => {
         setFlagUpdate(!flagUpdate);
     };
     // ejemplo de data que espera 
-    data = [
+    var data = [
         {
           "Id": "111644344858029_139836395453874",
           "Message": "muestra",

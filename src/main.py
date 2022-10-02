@@ -245,6 +245,7 @@ def post_stats_facebook():
     url_post_list = f"https://graph.facebook.com/{constants.FACEBOOK_API_VERSION}/me/feed?limit=5&access_token={constants.FACEBOOK_TOKEN}"
 
     curl = requests.get(url_post_list)
+    print(url_post_list)
 
     post_list = curl.json()["data"]
     for post in post_list:

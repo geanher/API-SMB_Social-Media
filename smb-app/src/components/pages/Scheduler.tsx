@@ -18,6 +18,12 @@ import Collapse from '@mui/material/Collapse';
 import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
+import Facebook from '../icons/Facebook.svg'
+import {InstagramCard} from "../InstagramCard"
+import {FacebookCard} from "../FacebookCard"
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -31,11 +37,20 @@ const useStyles = makeStyles((theme: Theme) =>
             marginRight: theme.spacing(1),
             width: 200,
         },
+
+
     }),
 );
 
 const ariaLabel = { 'aria-label': 'description' };
 
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(6),
+    // textAlign: 'center',
+    color: theme.palette.text.secondary,
+}));
 export const Scheduler = () => {
     const classes = useStyles();
     const [type, setType] = React.useState("");
@@ -126,87 +141,101 @@ export const Scheduler = () => {
     }
 
     return (
-        <>
-
-            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                <InputLabel id="select-small">Option</InputLabel>
-                <Select
-                    labelId="select-small"
-                    id="select-small"
-                    value={type}
-                    label="Option"
-                    onChange={handleChange}
-                >
-                    <MenuItem value={"1"}>Publish a Text</MenuItem>
-                    <MenuItem value={"2"}>Publish a Photo</MenuItem>
-                    <MenuItem value={"3"}>Change Profile Photo</MenuItem>
-                </Select>
-
-                <FormGroup>
-                    <FormControlLabel disabled={type === '' ? true : false} control={<Checkbox onChange={handleChangeFacebook} />} label="Facebook" />
-                    <FormControlLabel disabled={type === '2' ? false : true} control={<Checkbox onChange={handleChangeInstagram} />} label="Instagram" />
-                </FormGroup>
-                <TextField
-                    id="datetime-local"
-                    label="Date and Time"
-                    type="datetime-local"
-                    disabled={type === '' ? true : false}
-                    // defaultValue="2017-05-24T10:30"
-                    value={dateTime}
-                    onChange={handleChangeDateTime}
-                    // onChange={handleChange}
-                    className={classes.textField}
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                />
-
-            </FormControl>
-
-            <Box
-                component="form"
-                sx={{
-                    '& > :not(style)': { m: 1 },
-                }}
-                noValidate
-                autoComplete="off"
-            >
-                <Input disabled={type === '' ? true : false} placeholder="Text" inputProps={ariaLabel} multiline rows={4} value={textData} onChange={handleChangeText} />
-                <Input disabled={type === '2' || type === '3' ? false : true} multiline rows={4} placeholder="URL PIC" inputProps={ariaLabel} value={urlPic} onChange={handleChangeUrl} />
-            </Box>
-            <Button variant="contained" endIcon={<SendIcon />}
-                onClick={() => {
-                    fetchAPIEffect()
-                    setOpen(true)
-                    setTimeout(function(){
-                        window.location.replace('');
-                    },600);
-                    //setFlagUpdate(!flagUpdate)
-                }}
-                disabled={disabledButtonBoolean()}
-            >
-                Send
-            </Button>
-
-            <Collapse in={open}>
-                <Alert
-                    action={
-                        <IconButton
-                            aria-label="close"
-                            color="inherit"
-                            size="small"
-                            onClick={() => {
-                                setOpen(false);
-                            }}
+        <div>
+            <Stack direction="row" spacing={2}>
+                <Item>
+                    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+                        <InputLabel id="select-small">Option</InputLabel>
+                        <Select
+                            labelId="select-small"
+                            id="select-small"
+                            value={type}
+                            label="Option"
+                            onChange={handleChange}
                         >
-                            <CloseIcon fontSize="inherit" />
-                        </IconButton>
-                    }
-                    sx={{ mb: 2 }}
-                >
-                    Send Request
-                </Alert>
-            </Collapse>
-        </>
+                            <MenuItem value={"1"}>Publish a Text</MenuItem>
+                            <MenuItem value={"2"}>Publish a Photo</MenuItem>
+                            <MenuItem value={"3"}>Change Profile Photo</MenuItem>
+                        </Select>
+
+                        <FormGroup>
+                            <FormControlLabel disabled={type === '' ? true : false} control={<Checkbox onChange={handleChangeFacebook} />} label="Facebook" />
+                            <FormControlLabel disabled={type === '2' ? false : true} control={<Checkbox onChange={handleChangeInstagram} />} label="Instagram" />
+                        </FormGroup>
+
+
+                        <TextField
+                            id="datetime-local"
+                            label="Date and Time"
+                            type="datetime-local"
+                            disabled={type === '' ? true : false}
+                            // defaultValue="2017-05-24T10:30"
+                            value={dateTime}
+                            onChange={handleChangeDateTime}
+                            // onChange={handleChange}
+                            className={classes.textField}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                        />
+
+                    </FormControl>
+
+                    <Box
+                        component="form"
+                        sx={{
+                            '& > :not(style)': { m: 1 },
+                        }}
+                        noValidate
+                        autoComplete="off"
+                    >
+                        <Input disabled={type === '' ? true : false} placeholder="Text" inputProps={ariaLabel} multiline rows={4} value={textData} onChange={handleChangeText} />
+                        <Input disabled={type === '2' || type === '3' ? false : true} multiline rows={4} placeholder="URL PIC" inputProps={ariaLabel} value={urlPic} onChange={handleChangeUrl} />
+                    </Box>
+                    <Button variant="contained" endIcon={<SendIcon />}
+                        onClick={() => {
+                            fetchAPIEffect()
+                            setOpen(true)
+                            setTimeout(function () {
+                                window.location.replace('');
+                            }, 600);
+                            //setFlagUpdate(!flagUpdate)
+                        }}
+                        disabled={disabledButtonBoolean()}
+                    >
+                        Send
+                    </Button>
+
+                    <Collapse in={open}>
+                        <Alert
+                            action={
+                                <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        setOpen(false);
+                                    }}
+                                >
+                                    <CloseIcon fontSize="inherit" />
+                                </IconButton>
+                            }
+                            sx={{ mb: 2 }}
+                        >
+                            Send Request
+                        </Alert>
+                    </Collapse>
+                </Item>
+                {facebook || instagram?<Item>
+                    {/* <FacebookCard text={textData} link={urlPic}/> */}
+                    {facebook?<FacebookCard text={textData} link={urlPic}/>:null}
+                    <br/>
+                    <br/>
+
+                    {instagram?<InstagramCard text={textData} link={urlPic}/>:null}
+
+                </Item>:null}
+            </Stack>
+        </div>
     )
 }

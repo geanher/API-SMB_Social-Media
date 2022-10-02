@@ -8,12 +8,6 @@ import { elementTab, ListTab } from './utils';
 
 const useStyle = makeStyles(theme => ({
     bar: theme.mixins.toolbar,
-    logo: {
-        width: "80%",
-    },
-    miniLogo: {
-        width: "60%",
-    },
 }))
 
 export const NavBar = () => {

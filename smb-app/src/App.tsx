@@ -4,7 +4,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Scheduler } from './components/pages/Scheduler';
 import { Reports } from './components/pages/Reports';
-import { NextMessages } from './components/pages/NextMessages';
+import { NextMessages } from './components/pages/Upcoming';
 
 const theme = createTheme({
   palette: {
